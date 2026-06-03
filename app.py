@@ -297,8 +297,11 @@ theme = gr.themes.Base(
 css = """
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
 @import url('https://fonts.cdnfonts.com/css/star-jedi');
-body{margin:0!important;background:#000!important;color:#fff!important;font-family:Montserrat,Arial,sans-serif!important;overflow-x:hidden}
-.gradio-container{max-width:900px!important;margin:auto!important;min-height:100vh!important;padding:0 26px 42px!important;background:radial-gradient(ellipse at bottom,#1B2735 0%,#090A0F 52%,#000 100%)!important}
+html,body,gradio-app{width:100%!important;max-width:100%!important;background:#000!important;overflow-x:hidden!important}
+body{margin:0!important;color:#fff!important;font-family:Montserrat,Arial,sans-serif!important}
+gradio-app,.app,.wrap,.contain{background:transparent!important}
+.gradio-container{width:min(100%,900px)!important;max-width:900px!important;margin:0 auto!important;min-height:100vh!important;padding:0 26px 42px!important;background:transparent!important;box-sizing:border-box!important}
+.gradio-container *{box-sizing:border-box!important}
 .stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .star{position:absolute;border-radius:50%;animation:twinkle var(--duration) ease-in-out infinite alternate;box-shadow:0 0 6px currentColor}
 @keyframes twinkle{from{transform:scale(.72);filter:brightness(.72)}to{transform:scale(1.22);filter:brightness(1.18)}}
@@ -336,7 +339,36 @@ body{margin:0!important;background:#000!important;color:#fff!important;font-fami
 .sendrow button:hover{color:#fff!important;border-color:#FFE81F!important;box-shadow:0 0 18px rgba(255,232,31,.12)}
 .note{color:#888;font-size:.86rem;text-align:center;margin:18px 0 0}
 footer{display:none!important}
-@media(max-width:720px){.old-shell{padding-top:42px}.cta{width:100%}.feature-row{grid-template-columns:1fr!important;max-width:330px!important}.feature-row button{font-size:.95rem!important}}
+@media(max-width:720px){
+  .gradio-container{width:100%!important;max-width:100%!important;padding:0 18px 28px!important}
+  .old-shell{padding:38px 0 10px}
+  .title-font{font-size:clamp(1.72rem,8.5vw,2.55rem)!important;line-height:1.18;letter-spacing:1px;margin:0 auto 20px;max-width:100%}
+  .title-font .line{white-space:normal}
+  .voice{font-size:1.05rem;margin-bottom:12px}
+  .intro{font-size:.9rem;line-height:1.55;margin-bottom:28px}
+  .cta-row{gap:12px;margin-bottom:38px}
+  .cta{width:100%;min-height:48px;padding:0 18px;font-size:.95rem}
+  .features-title{font-size:1.16rem;line-height:1.35;margin-bottom:16px}
+  .feature-row{width:100%!important;grid-template-columns:1fr!important;max-width:340px!important;margin:0 auto 8px!important}
+  .feature-row button{width:100%!important;max-width:100%!important;justify-content:center!important;text-align:center!important;white-space:normal!important;min-height:44px!important;padding:8px 12px!important;font-size:.96rem!important;border-radius:999px!important;background:rgba(0,0,0,.30)!important;border:1px solid rgba(255,232,31,.12)!important}
+  .feature-row button:first-child,.feature-row button:last-child{justify-content:center!important;text-align:center!important}
+  .feature-row button:hover{transform:none}
+  .chat-link-title{margin-top:30px;font-size:.7rem}
+  .chat-help{font-size:.86rem;line-height:1.45;margin-bottom:12px}
+  .chat-panel{border-radius:22px;padding:14px}
+  .transmission-head{display:block;text-align:center;font-size:.68rem;line-height:1.7}
+  .transmission-head span{display:block}
+  .chat-panel textarea{border-radius:18px!important}
+  .sendrow{display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
+  .sendrow button{width:100%!important;min-height:44px!important}
+  .note{font-size:.8rem;line-height:1.45}
+}
+@media(max-width:420px){
+  .gradio-container{padding-left:14px!important;padding-right:14px!important}
+  .title-font{font-size:clamp(1.52rem,8vw,2.18rem)!important;letter-spacing:.5px}
+  .voice{font-size:.98rem}
+  .feature-row{max-width:318px!important}
+}
 """
 
 with gr.Blocks(theme=theme, css=css, title="The Dark Side") as demo:
