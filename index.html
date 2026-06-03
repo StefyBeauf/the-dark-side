@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark'Side - Assistant IA Mystérieux</title>
+
+  <!-- 🛡️ Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" 
+        content="
+          default-src 'self';
+          script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+          style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com https://cdn.tailwindcss.com;
+          font-src 'self' https://fonts.gstatic.com https://fonts.cdnfonts.com;
+          img-src 'self' data: https://enzostvs-deepsite.hf.space;
+          media-src 'self';
+          connect-src 'self';
+          frame-ancestors 'self';
+          base-uri 'self';
+          form-action 'self';
+        ">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/star-jedi" rel="stylesheet" />
+
+  <style>
+    /* STYLE GLOBAL */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .title-font {
+      font-family: 'Star Jedi','Orbitron',sans-serif;
+      letter-spacing: 2px;
+    }
+
+    /* Fond étoilé */
+    .stars-bg {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at bottom,#1B2735 0%,#090A0F 100%);
+      z-index: -1;
+    }
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.2;
+      animation: twinkle var(--duration) infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%,100%{opacity:0.2}
+      50%{opacity:1}
+    }
+
+    /* Hover premium sur les fonctionnalités */
+    .feature-link {
+      transition: all 0.25s ease;
+    }
+
+    .feature-link:hover {
+      color: #f6e05e; /* jaune premium */
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* Bouton audio discret */
+    .small-audio-btn {
+      background: #111;
+      border: 1px solid #333;
+      color: #aaa;
+    }
+
+    .small-audio-btn:hover {
+      background: #1a1a1a;
+      color: #ddd;
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-center p-6">
+
+  <div class="stars-bg" id="stars-container"></div>
+
+  <main class="text-center max-w-3xl w-full">
+
+    <!-- ⭐ TITRE -->
+    <h1 class="title-font text-4xl md:text-6xl font-bold mb-6">
+      Bienvenue dans The Dark'Side.
+    </h1>
+
+    <p class="text-xl md:text-2xl text-gray-300 mb-6">
+      Une voix t'appelle. Une force s'éveille.
+    </p>
+
+    <p class="text-sm italic text-gray-400 mb-12">
+      Approchez du Côté Obscur… et découvrez sa vraie puissance.
+    </p>
+
+    <!-- ⭐ BOUTON PRINCIPAL -->
+    <a id="assistant-btn"
+       href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side"
+       target="_blank"
+       class="inline-block px-12 py-4 rounded-full text-lg md:text-xl font-bold tracking-wider
+              bg-black border-2 border-yellow-300 text-yellow-300
+              hover:text-white hover:border-yellow-400 hover:scale-105
+              transition-all duration-300">
+      Accéder à l'Assistant
+    </a>
+
+  </main>
+
+  <!-- ⭐ SECTION FONCTIONNALITÉS -->
+  <section class="max-w-3xl w-full mt-16 text-gray-300">
+
+    <h2 class="text-2xl font-medium mb-6 text-center">
+      Les fonctionnalités de ton Assistant IA
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mb-10">
+
+      <!-- 📚 Approfondir un cours -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+approfondir+un+cours.+Pose-moi+des+questions+pour+m%27aider+%C3%A0+comprendre+une+notion."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">📚</span> Approfondir un cours
+      </a>
+
+      <!-- ✍️ Préparer un devoir / oral -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+pr%C3%A9parer+un+devoir+ou+un+oral.+Aide-moi+%C3%A0+structurer+mes+id%C3%A9es."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">✍️</span> Préparer un devoir / oral
+      </a>
+
+      <!-- 🗂️ Déposer les devoirs -->
+      <a href="https://tally.so/r/mZALJz"
+   target="_blank"
+   class="feature-link flex items-center cursor-pointer">
+  <span class="text-yellow-300 mr-2">🗂️</span> Déposer les devoirs
+</a>
+
+      <!-- 🧑‍💼 Optimiser CV & LinkedIn -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+optimiser+mon+CV+ou+mon+profil+LinkedIn.+Pose-moi+des+questions+et+propose-moi+des+am%C3%A9liorations+concr%C3%A8tes."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">🧑‍💼</span> Optimiser CV & LinkedIn
+      </a>
+
+      <!-- 🎤 Simulations d’entretien -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+m%27entra%C3%AEner+%C3%A0+un+entretien.+Pose-moi+des+questions+comme+un+recruteur+et+donne-moi+du+feedback."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">🎤</span> Simulations d’entretien
+      </a>
+
+      <!-- 💬 Auto-coaching Dark Vador -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+un+auto-coaching+Dark+Vador+sur+ma+motivation%2C+mon+stress+ou+mon+organisation.+Pose-moi+des+questions+et+aide-moi+%C3%A0+y+voir+plus+clair."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">💬</span> Auto-coaching Dark Vador
+      </a>
+
+      <!-- 💪 Micro-défis motivation -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+un+micro-d%C3%A9fi+motivation+rapide+sportif+ou+mental+adapt%C3%A9+au+temps+que+j%27ai+devant+moi."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">💪</span> Micro-défis motivation
+      </a>
+
+      <!-- 📅 Suivi mémoire -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=je+veux+prendre+rendez-vous+pour+mon+suivi+livre+blanc+ou+autres+travaux+de+suivi+avec+Madame+Beaufum%C3%A9."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">📅</span> Suivi mémoire
+      </a>
+
+      <!-- 🌐 Résumé de l’actualité -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+un+r%C3%A9sum%C3%A9+de+l%27actualit%C3%A9+g%C3%A9n%C3%A9rale+ou+dans+une+sp%C3%A9cialit%C3%A9."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">🌐</span> Résumé de l’actualité
+      </a>
+
+      <!-- ❓ Questions libres -->
+      <a href="https://chatgpt.com/g/g-6863f6bb95348191acb4d92ea78df316-the-dark-side?prompt=Je+veux+te+poser+des+questions+libres+sur+mes+%C3%A9tudes%2C+ma+carri%C3%A8re+ou+mon+organisation."
+         target="_blank"
+         class="feature-link flex items-center cursor-pointer">
+        <span class="text-yellow-300 mr-2">❓</span> Questions libres
+      </a>
+
+    </div>
+
+    <!-- ⭐ BOUTON AUDIO MINIMALISTE -->
+    <div class="flex justify-center mt-2">
+      <button id="vador-sound-btn"
+              class="small-audio-btn px-4 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+        🔊 Libérer la Force de l’Apprentissage
+      </button>
+    </div>
+
+  </section>
+
+  <footer class="py-10 text-gray-500 text-xs text-center">
+    ⚠️ Les fonctions IA requièrent un compte ChatGPT. Le dépôt de devoir se fait via Tally.
+  </footer>
+
+  <!-- ⭐ JS -->
+  <script>
+    /* Étoiles animées */
+    (function(){
+      const container=document.getElementById("stars-container");
+      if(container){
+        for(let i=0;i<100;i++){
+          const star=document.createElement("div");
+          star.classList.add("star");
+          star.style.width=star.style.height=(Math.random()*3)+"px";
+          star.style.left=(Math.random()*window.innerWidth)+"px";
+          star.style.top=(Math.random()*window.innerHeight)+"px";
+          star.style.setProperty('--duration',(2+Math.random()*5)+"s");
+          container.appendChild(star);
+        }
+      }
+    })();
+
+    /* Audio Dark Vador */
+    const soundBtn = document.getElementById("vador-sound-btn");
+    const vadorSound = new Audio("./darkvador.mp3");
+
+    if (soundBtn) {
+      soundBtn.addEventListener("click", () => {
+        vadorSound.currentTime = 0;
+        vadorSound.play();
+      });
+    }
+  </script>
+
+</body>
+</html>
