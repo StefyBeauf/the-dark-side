@@ -4,7 +4,8 @@ import gradio as gr
 from openai import OpenAI
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
+OPENAI_SEARCH_MODEL = os.getenv("OPENAI_SEARCH_MODEL", "gpt-5-mini")
 TALLY_URL = os.getenv("TALLY_URL", "https://tally.so/r/mZALJz")
 GPT_URL = os.getenv(
     "CUSTOM_GPT_URL",
@@ -12,6 +13,8 @@ GPT_URL = os.getenv(
 )
 
 client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "360"))
+MAX_HISTORY_TURNS = int(os.getenv("MAX_HISTORY_TURNS", "6"))
 
 
 def render_stars(count=135):
@@ -130,6 +133,9 @@ Format des reponses :
 Utilise des titres clairs, listes a puces, etapes numerotees, syntheses
 visuelles et un langage simple. Quand pertinent, inclus points forts, axes
 d'amelioration et prochaines etapes.
+Pour garder une experience fluide, reponds court par defaut : 6 a 10 lignes
+maximum, sauf si l'etudiant demande explicitement un developpement, un plan
+detaille ou une simulation.
 Apres chaque reponse, propose une action concrete immediate.
 Termine chaque echange par une phrase inspirante dans l'esprit du Gardien de
 la Force, par exemple :
@@ -149,7 +155,8 @@ La Force guide ton apprentissage. La methode fera le reste."
 
 def build_input(history, message):
     items = []
-    for user_msg, bot_msg in history:
+    recent_history = (history or [])[-MAX_HISTORY_TURNS:]
+    for user_msg, bot_msg in recent_history:
         if user_msg:
             items.append({"role": "user", "content": user_msg})
         if bot_msg:
@@ -188,20 +195,21 @@ def reply(message, history):
         yield "", history
         return
 
-    history.append((message, ""))
+    history.append((message, "Transmission en cours..."))
     yield "", history
 
     try:
         answer_text = ""
+        use_web_search = needs_web_search(message)
         request = {
-            "model": OPENAI_MODEL,
+            "model": OPENAI_SEARCH_MODEL if use_web_search else OPENAI_MODEL,
             "instructions": SYSTEM_PROMPT,
             "input": build_input(history, message),
-            "max_output_tokens": 700,
+            "max_output_tokens": MAX_OUTPUT_TOKENS,
             "stream": True,
             "stream_options": {"include_obfuscation": False},
         }
-        if needs_web_search(message):
+        if use_web_search:
             request["tools"] = [{"type": "web_search"}]
             request["tool_choice"] = "auto"
 
@@ -234,7 +242,65 @@ def prompt(kind):
 
 
 def run_prompt(kind, history):
-    yield from reply(prompt(kind), history)
+    openers = {
+        "cours": (
+            "Parfait. Pour quel cours veux-tu approfondir ?\n\n"
+            "Tu peux choisir parmi : RSE, IA et RH, IA, Recrutement 3.0, Soft Skills, ATS, "
+            "Management d'equipe, Bien-etre au travail, Conflit au travail, Formation et Carriere, "
+            "Gestion de projet RH, Oral GOP, Initiation au recrutement, Management intergenerationnel, "
+            "Mission de consulting, Newsletter RH, Livre blanc, Organisation du travail, Outils collaboratifs, "
+            "Entretiens professionnels, Onboarding, Inclusion et Diversite, Atelier carriere.\n\n"
+            "Donne-moi aussi ton niveau : debutant, intermediaire ou avance."
+        ),
+        "oral": (
+            "Tres bien. Pour preparer ton oral, donne-moi :\n\n"
+            "1. La matiere.\n"
+            "2. Le sujet.\n"
+            "3. La duree de passage.\n"
+            "4. Le format attendu : seul, groupe, slides, jury.\n\n"
+            "Premier rappel technique : ordinateur charge, chargeur disponible, support teste, "
+            "pas de notes entre les mains, regard vers le public et gestion du temps."
+        ),
+        "entretien": (
+            "Mode simulation active. Donne-moi :\n\n"
+            "1. Le poste ou le stage vise.\n"
+            "2. Ton niveau d'experience.\n"
+            "3. Le type d'entretien : RH, manager, ecole, alternance.\n\n"
+            "Je te poserai ensuite maximum 10 questions, puis je ferai le bilan : points forts, "
+            "axes d'amelioration et conseils personnalises."
+        ),
+        "coaching": (
+            "Je t'ecoute. Sur quoi veux-tu etre accompagne aujourd'hui : motivation, stress, "
+            "organisation, confiance ou passage a l'action ?\n\n"
+            "Dis-moi aussi combien de temps tu as devant toi : 5, 10 ou 20 minutes."
+        ),
+        "defi": (
+            "Pret pour un micro-defi. Dis-moi :\n\n"
+            "1. Ton objectif du moment.\n"
+            "2. Ton niveau d'energie de 1 a 10.\n"
+            "3. Le temps disponible : 5, 10 ou 20 minutes.\n\n"
+            "Je te proposerai un exercice simple, concret et faisable tout de suite."
+        ),
+        "memoire": (
+            "Pour reserver un suivi memoire, voici le lien officiel :\n"
+            "https://calendly.com/stephanie-beaufume-r0_g/suivi-de-memoire\n\n"
+            "Avant de reserver, relis tes consignes et prepare ton sujet, ton plan actuel "
+            "et tes questions prioritaires."
+        ),
+        "actu": (
+            "Pour scanner l'actualite, dis-moi :\n\n"
+            "1. La specialite souhaitee : RH, IA, economie, emploi, entreprise, innovation...\n"
+            "2. Le perimetre : France ou Monde.\n"
+            "3. Le format voulu : resume rapide, analyse, exemples ou sources."
+        ),
+        "libre": (
+            "Pose ta question librement. Plus tu me donnes de contexte, plus ma reponse sera utile : "
+            "objectif, niveau, contrainte, date limite ou document concerne."
+        ),
+    }
+    next_history = list(history or [])
+    next_history.append((prompt(kind), openers[kind]))
+    yield "", next_history
 
 
 def run_cours(history):
@@ -438,4 +504,8 @@ with gr.Blocks(theme=theme, css=css, title="The Dark Side") as demo:
     """)
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=7860)
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=7860,
+        favicon_path="favicon.png",
+    )
